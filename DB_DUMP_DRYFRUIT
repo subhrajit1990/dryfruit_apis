@@ -18,7 +18,31 @@ CREATE TABLE contact_me (
   CREATE INDEX id ON contact_me (id); commit;
 
 
+CREATE TABLE PRODUCTS (
+id SERIAL NOT NULL ,
+name varchar(255) DEFAULT NULL,
+description varchar(255) DEFAULT NULL,
+imageurl varchar(255) DEFAULT NULL,
+sku varchar(255) DEFAULT NULL,
+price double PRECISION NOT NULL,
+category_id bigint NOT NULL ,
+inventory_id bigint NOT NULL,
+discount_id bigint NOT NULL,
+modified_dt timestamp NULL DEFAULT NULL,
+PRIMARY KEY (id),
+    FOREIGN KEY (category_id) REFERENCES PRODUCT_CATEGORY(id)
+ );
+commit;
 
+
+
+ CREATE TABLE PRODUCT_CATEGORY (
+id SERIAL NOT NULL,
+name varchar(255) DEFAULT NULL,
+description varchar(255) DEFAULT NULL,
+modified_dt timestamp NULL DEFAULT NULL,
+PRIMARY KEY (id)
+ ); commit;
 
 
 
