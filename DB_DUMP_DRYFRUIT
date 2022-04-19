@@ -46,6 +46,25 @@ PRIMARY KEY (id)
 
 
 
+ CREATE TABLE DISCOUNT (
+id SERIAL NOT NULL,
+name varchar(255) DEFAULT NULL,
+description varchar(255) DEFAULT NULL,
+discount double PRECISION DEFAULT NULL,
+modified_dt timestamp NULL DEFAULT NULL,
+PRIMARY KEY (id)
+ ); commit;
+
+
+
+ CREATE TABLE PRODUCT_INVENTORY (
+id SERIAL NOT NULL,
+quantity int DEFAULT NULL,
+modified_dt timestamp NULL DEFAULT NULL,
+PRIMARY KEY (id)
+ ); commit;
+
+
 
 MYSQL
 ------
