@@ -29,7 +29,7 @@ public class ProductCategory implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "desc")
+	@Column(name = "description")
 	private String desc;
 
 	@CreationTimestamp
