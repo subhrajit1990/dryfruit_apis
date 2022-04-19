@@ -1,0 +1,13 @@
+POST /DryFruit/product/api/all HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+masterTxnRefNo: 23123131
+channel: MB
+Authorization: Basic YWRtaW46cGFzc3dvcmQ=
+Cache-Control: no-cache
+Postman-Token: eca96e4a-30ea-4d85-bda3-9a0dc606b8b2
+
+{"productRequest":{
+	
+ }
+}
