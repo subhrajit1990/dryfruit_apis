@@ -32,7 +32,7 @@ public class Product implements Serializable {
 	@Column(name = "imageurl")
 	private String imageUrl;
 	
-	@Column(name = "desc")
+	@Column(name = "description")
 	private String desc;
 	
 	@Column(name = "sku")
