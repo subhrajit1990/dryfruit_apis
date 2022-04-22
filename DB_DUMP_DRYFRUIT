@@ -18,6 +18,16 @@ CREATE TABLE contact_me (
   CREATE INDEX id ON contact_me (id); commit;
 
 
+CREATE TABLE EMAIL_SUBSCRIBE (
+   id SERIAL NOT NULL ,
+   created_dt timestamp(0) NULL DEFAULT NULL,
+   master_txn_no varchar(45) NOT NULL,
+   email varchar(500) NOT NULL,
+  updated_dt timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (id)); commit;
+  CREATE INDEX id ON EMAIL_SUBSCRIBE (id); commit;
+
+
 CREATE TABLE PRODUCTS (
 id SERIAL NOT NULL ,
 name varchar(255) DEFAULT NULL,
@@ -82,6 +92,15 @@ CREATE TABLE contact_me (
    `message` varchar(500) NOT NULL,
   PRIMARY KEY (id)); commit;
   CREATE INDEX id ON contact_me (id); commit;
+
+CREATE TABLE EMAIL_SUBSCRIBE (
+   `id` int(11) NOT NULL AUTO_INCREMENT ,
+   `created_dt` timestamp NULL DEFAULT NULL,
+   `master_txn_no` varchar(45) NOT NULL,
+   `email` varchar(500) NOT NULL,
+   `updated_dt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (id)); commit;
+  CREATE INDEX id ON EMAIL_SUBSCRIBE (id); commit;
 
 
 
