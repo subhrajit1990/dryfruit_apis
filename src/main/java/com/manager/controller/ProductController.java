@@ -43,7 +43,7 @@ public class ProductController {
 	private ProductService productService;
 
 	@PreAuthorize("hasRole('USER')")
-	@ApiResponses({ @ApiResponse(code = 200, message = "Contact me API is reachable"),
+	@ApiResponses({ @ApiResponse(code = 200, message = "All Product API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
@@ -70,6 +70,38 @@ public class ProductController {
 		productResponseWrapper.setResponseHeader(responseHeader);
 		productResponseWrapper.setProductReponse(productResponse);
 		logger.info("Finished the execution for the fetch products request with masterTxnRefNo :: " + masterTxnRefNo);
+		return new ResponseEntity<>(productResponseWrapper, httpStatus);
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Recent Product API is reachable"),
+			@ApiResponse(code = 408, message = "Service Timed Out"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+	@ApiOperation(value = "Recent Products", notes = "Recent Products")
+	@PostMapping(value = "/recentProducts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductResponseWrapper> recentProducts(
+			@RequestBody ProductRequestWrapper productRequestWrapper,
+			@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel) {
+		logger.info("Started the execution for the fetch recent products request with masterTxnRefNo :: " + masterTxnRefNo);
+		HttpStatus httpStatus = null;
+		httpStatus = HttpStatus.OK;
+		ResponseHeader responseHeader = new ResponseHeader();
+		ProductResponseWrapper productResponseWrapper = new ProductResponseWrapper();
+		ProductResponse productResponse = new ProductResponse();
+		try {
+		productResponse = productService.fetchRecentProducts(productRequestWrapper.getProductRequest(),
+				masterTxnRefNo, channel);
+		CommonUtils.generateHeaderForSuccess(responseHeader);
+		} catch(Exception e) {
+			logger.error("Error occurred during fetch recent products in rest layer :: " + e.getStackTrace());
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
+		}
+		
+		productResponseWrapper.setResponseHeader(responseHeader);
+		productResponseWrapper.setProductReponse(productResponse);
+		logger.info("Finished the execution for the fetch recent products request with masterTxnRefNo :: " + masterTxnRefNo);
 		return new ResponseEntity<>(productResponseWrapper, httpStatus);
 
 	}
