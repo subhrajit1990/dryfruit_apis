@@ -18,5 +18,7 @@ import com.manager.model.ProductResponse;
 public interface IProductService {
 	
 	public ProductResponse fetchAllProducts(ProductRequest productRequest, String masterTxnRefNo, String channel);
+	public ProductResponse fetchRecentProducts(ProductRequest productRequest, String masterTxnRefNo, String channel);
+
 
 }
