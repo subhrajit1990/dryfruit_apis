@@ -80,4 +80,46 @@ public class ProductService implements IProductService {
 		return productResponse;
 	}
 
+	public ProductResponse fetchRecentProducts(ProductRequest productRequest, String masterTxnRefNo, String channel) {
+		/**
+		 * Data manipulation is not required, only to fetch and store hence
+		 * using Array List
+		 **/
+		ArrayList<Product> prodDtls = null;
+		ProductResponse productResponse = new ProductResponse();
+
+		try {
+			prodDtls = (ArrayList<Product>) productDetails.findTop3ByOrderByIdDesc();
+			logger.info("Products :: " + prodDtls);
+
+			if (!prodDtls.isEmpty()) {
+				List<ProductDetails> prdDtls = Collections.synchronizedList(new ArrayList<>());
+
+				Iterator<Product> itr = prodDtls.iterator();
+				while (itr.hasNext()) {
+					ProductDetails gp = new ProductDetails();
+					Product ct = itr.next();
+					gp.setCategory(ct.getCategory().getName());
+					gp.setDescription(ct.getDesc());
+					gp.setImage(ct.getImageUrl());
+					gp.setPrice(ct.getPrice());
+					gp.setTitle(ct.getName());
+					prdDtls.add(gp);
+
+				}
+				productResponse.setProductDetails(prdDtls);;
+				
+			} else {
+				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
+			}
+
+		} catch (Exception e) {
+			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
+			
+		}
+		logger.info("Exiting the fetch products  :: " + productResponse.toString());
+		return productResponse;
+	}
+
 }
