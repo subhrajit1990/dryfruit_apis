@@ -16,8 +16,6 @@ public interface ProductDetailsRepo extends CrudRepository<Product,Long> {
 
 	ArrayList<Product> findTop3ByOrderByIdDesc();
 
-	
-
-
+	ArrayList<Product> findBySku(String sku);
 }
  
