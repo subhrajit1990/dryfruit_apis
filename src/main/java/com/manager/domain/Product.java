@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 
 @Entity
@@ -37,16 +41,15 @@ public class Product implements Serializable {
 	
 	@Column(name = "sku")
 	private String sku;
-	
-//	@Column(name = "category_id")
-//	private int categoryId;
-	
+		
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory category;
 	
-	@Column(name = "inventory_id")
-	private int inventoryId;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@NotFound(action=NotFoundAction.IGNORE)
+    @JoinColumn(name = "inventory_id", foreignKey=@ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	private ProductInventory inventory;
 	
 	@Column(name = "price")
 	private double price;
@@ -90,14 +93,12 @@ public class Product implements Serializable {
 		this.sku = sku;
 	}
 
-	
-
-	public int getInventoryId() {
-		return inventoryId;
+	public ProductInventory getInventory() {
+		return inventory;
 	}
 
-	public void setInventoryId(int inventoryId) {
-		this.inventoryId = inventoryId;
+	public void setInventory(ProductInventory inventory) {
+		this.inventory = inventory;
 	}
 
 	public double getPrice() {
@@ -139,7 +140,7 @@ public class Product implements Serializable {
 	public void setCategory(ProductCategory category) {
 		this.category = category;
 	}
+	
+	
 
-	
-	
 }
