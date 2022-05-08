@@ -1,5 +1,7 @@
 package com.manager.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +22,7 @@ import com.manager.model.ResponseHeader;
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	ResponseHeader responseHeader= new ResponseHeader();
+	private static final Logger logger = LogManager.getLogger(ControllerAdvisor.class);
 	
 	@ExceptionHandler(ContactMeException.class)
 	public ResponseEntity<ContactMeResponseWrapper> handleContactMeException(ContactMeException ex, WebRequest webReq) {
@@ -32,7 +35,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(GenericException.class)
-	public ResponseEntity<ProductResponseWrapper> handleContactMeException(GenericException ex, WebRequest webReq) {
+	public ResponseEntity<ProductResponseWrapper> GenericException(GenericException ex, WebRequest webReq) {
 		logger.error("Run time exception happened for generic exception ");
 		CommonUtils.generateHeaderForGenericError(responseHeader);
 		ProductResponseWrapper productResponseWrapper = new ProductResponseWrapper();
@@ -42,9 +45,9 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(NoRecordException.class)
-	public ResponseEntity<ProductResponseWrapper> handleContactMeException(NoRecordException ex, WebRequest webReq) {
+	public ResponseEntity<ProductResponseWrapper> NoRecordException(NoRecordException ex, WebRequest webReq) {
 		logger.error("Run time exception happened for no record found ");
-		CommonUtils.generateHeaderForGenericError(responseHeader);
+		CommonUtils.generateHeaderForNoResult(responseHeader);
 		ProductResponseWrapper productResponseWrapper = new ProductResponseWrapper();
 		productResponseWrapper.setResponseHeader(responseHeader);
 		return new ResponseEntity<>(productResponseWrapper, HttpStatus.OK);
@@ -52,7 +55,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(EmailSubscribeException.class)
-	public ResponseEntity<EmailSubscribeResponseWrapper> handleContactMeException(EmailSubscribeException ex, WebRequest webReq) {
+	public ResponseEntity<EmailSubscribeResponseWrapper> EmailSubscribeException(EmailSubscribeException ex, WebRequest webReq) {
 		logger.error("Run time exception happened for email subscribe module ");
 		CommonUtils.generateHeaderForGenericError(responseHeader);
 		EmailSubscribeResponseWrapper emailSubscribeResponseWrapper = new EmailSubscribeResponseWrapper();
