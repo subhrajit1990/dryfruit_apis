@@ -19,6 +19,6 @@ public interface IProductService {
 	
 	public ProductResponse fetchAllProducts(ProductRequest productRequest, String masterTxnRefNo, String channel);
 	public ProductResponse fetchRecentProducts(ProductRequest productRequest, String masterTxnRefNo, String channel);
-
+	public ProductResponse fetchProduct(String productId, String masterTxnRefNo, String channel);
 
 }
