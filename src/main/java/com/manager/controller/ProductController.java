@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -105,5 +107,38 @@ public class ProductController {
 		return new ResponseEntity<>(productResponseWrapper, httpStatus);
 
 	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Product API is reachable"),
+			@ApiResponse(code = 408, message = "Service Timed Out"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+	@ApiOperation(value = "View Products", notes = "View Product")
+	@GetMapping(value = "/viewProduct/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductResponseWrapper> product(
+			@PathVariable String productId,
+			@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel) {
+		logger.info("Started the execution for the fetch product request with masterTxnRefNo :: " + masterTxnRefNo);
+		HttpStatus httpStatus = null;
+		httpStatus = HttpStatus.OK;
+		ResponseHeader responseHeader = new ResponseHeader();
+		ProductResponseWrapper productResponseWrapper = new ProductResponseWrapper();
+		ProductResponse productResponse = new ProductResponse();
+		try {
+		productResponse = productService.fetchProduct(productId,
+				masterTxnRefNo, channel);
+		CommonUtils.generateHeaderForSuccess(responseHeader);
+		} catch (Exception e) {
+			logger.error("Error occurred during fetch product in rest layer :: " + e.getStackTrace());
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
+		}
+		
+		productResponseWrapper.setResponseHeader(responseHeader);
+		productResponseWrapper.setProductReponse(productResponse);
+		logger.info("Finished the execution for the fetch product request with masterTxnRefNo :: " + masterTxnRefNo);
+		return new ResponseEntity<>(productResponseWrapper, httpStatus);
+
+	}
+
 
 }
