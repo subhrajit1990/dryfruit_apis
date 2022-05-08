@@ -34,6 +34,10 @@ public class ProductDetails {
 	@JsonProperty("description")
 	private String description;
 
+	@ApiModelProperty(example = "10", position = 6, required = true, value = "${ProductDetails.quantity.value}")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonProperty("quantity")
+	private int quantity;
 
 	public String getTitle() {
 		return title;
@@ -88,12 +92,21 @@ public class ProductDetails {
 	}
 
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ProductDetails [title=" + title + ", image=" + image + ", price=" + price + ", category=" + category
-				+ ", description=" + description + "]";
+				+ ", description=" + description + ", quantity=" + quantity + "]";
 	}
-	
-	
-	
+
+
 }
