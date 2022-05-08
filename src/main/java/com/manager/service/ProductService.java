@@ -48,7 +48,7 @@ public class ProductService implements IProductService {
 
 		try {
 			prodDtls = (ArrayList<Product>) productDetails.findAll();
-			logger.info("Products :: " + prodDtls);
+			logger.info("All Products :: " + prodDtls);
 
 			if (!prodDtls.isEmpty()) {
 				List<ProductDetails> prdDtls = Collections.synchronizedList(new ArrayList<>());
@@ -62,6 +62,8 @@ public class ProductService implements IProductService {
 					gp.setImage(ct.getImageUrl());
 					gp.setPrice(ct.getPrice());
 					gp.setTitle(ct.getName());
+					if(ct.getInventory() != null)
+					gp.setQuantity(ct.getInventory().getQuantity());
 					prdDtls.add(gp);
 
 				}
@@ -72,6 +74,7 @@ public class ProductService implements IProductService {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
 			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
 			
@@ -90,7 +93,7 @@ public class ProductService implements IProductService {
 
 		try {
 			prodDtls = (ArrayList<Product>) productDetails.findTop3ByOrderByIdDesc();
-			logger.info("Products :: " + prodDtls);
+			logger.info("Recent Products :: " + prodDtls);
 
 			if (!prodDtls.isEmpty()) {
 				List<ProductDetails> prdDtls = Collections.synchronizedList(new ArrayList<>());
@@ -104,6 +107,8 @@ public class ProductService implements IProductService {
 					gp.setImage(ct.getImageUrl());
 					gp.setPrice(ct.getPrice());
 					gp.setTitle(ct.getName());
+					if(ct.getInventory() != null)
+					gp.setQuantity(ct.getInventory().getQuantity());
 					prdDtls.add(gp);
 
 				}
@@ -123,7 +128,7 @@ public class ProductService implements IProductService {
 	}
 	
 	@Transactional
-	public ProductResponse fetchProduct(ProductRequest productRequest, String masterTxnRefNo, String channel) {
+	public ProductResponse fetchProduct(String productId, String masterTxnRefNo, String channel) {
 		
 		/**
 		 * Data manipulation is not required, only to fetch and store hence
@@ -133,7 +138,7 @@ public class ProductService implements IProductService {
 		ProductResponse productResponse = new ProductResponse();
 
 		try {
-			prodDtls = (ArrayList<Product>) productDetails.findBySku(productRequest.getSku());
+			prodDtls = (ArrayList<Product>) productDetails.findBySku(productId);
 			logger.info("Products :: " + prodDtls);
 
 			if (!prodDtls.isEmpty()) {
@@ -148,6 +153,8 @@ public class ProductService implements IProductService {
 					gp.setImage(ct.getImageUrl());
 					gp.setPrice(ct.getPrice());
 					gp.setTitle(ct.getName());
+					if(ct.getInventory() != null)
+					gp.setQuantity(ct.getInventory().getQuantity());
 					prdDtls.add(gp);
 
 				}
@@ -165,6 +172,5 @@ public class ProductService implements IProductService {
 		logger.info("Exiting the fetch products  :: " + productResponse.toString());
 		return productResponse;
 	}
-
 
 }
