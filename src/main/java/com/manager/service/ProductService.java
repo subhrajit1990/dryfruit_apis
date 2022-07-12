@@ -5,11 +5,9 @@ package com.manager.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -20,12 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.manager.domain.Product;
-import com.manager.domain.ProductCategory;
 import com.manager.model.AddProductRequest;
 import com.manager.model.ProductDetails;
 import com.manager.model.ProductRequest;
 import com.manager.model.ProductResponse;
-import com.manager.repo.ProductCategoryRepo;
 import com.manager.repo.ProductDetailsRepo;
 import com.manager.utils.GenericException;
 import com.manager.utils.NoRecordException;
@@ -43,8 +39,8 @@ public class ProductService implements IProductService {
 	@Autowired
 	private ProductDetailsRepo productDetails;
 	
-	@Autowired
-	private ProductCategoryRepo productCategoryRepo;
+//	@Autowired
+//	private ProductCategoryRepo productCategoryRepo;
 
 	@Transactional
 	public ProductResponse fetchAllProducts(ProductRequest productRequest, String masterTxnRefNo, String channel) {
@@ -192,8 +188,8 @@ public class ProductService implements IProductService {
 			String channel) {
 		// TODO Auto-generated method stub
 		Product product = new Product();
-		ProductCategory productCategory = new ProductCategory();
-		Set<Product> tempData = new HashSet<Product>();
+//		ProductCategory productCategory = new ProductCategory();
+//		Set<Product> tempData = new HashSet<Product>();
 		
 		product.setDiscountId(addProductRequest.getDiscountId());
 		product.setImageUrl(addProductRequest.getImage());
@@ -202,13 +198,15 @@ public class ProductService implements IProductService {
 		product.setSku(addProductRequest.getSku());
 		product.setDesc(addProductRequest.getProductDescription());
 		
-		tempData.add(product);
-		productCategory.setDesc(addProductRequest.getCategoryDescription());
-		productCategory.setName(addProductRequest.getCategory());
-		productCategory.setProducts(tempData);
+//		tempData.add(product);
+//		productCategory.setDesc(addProductRequest.getCategoryDescription());
+//		productCategory.setName(addProductRequest.getCategory());
+//		productCategory.setProducts(tempData);
+//		
+//
+//		productCategoryRepo.save(productCategory);
 		
-
-		productCategoryRepo.save(productCategory);
+		productDetails.save(product);
 		return null;
 	}
 
