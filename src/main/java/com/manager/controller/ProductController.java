@@ -152,7 +152,7 @@ public class ProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
 	@ApiOperation(value = "Add Products", notes = "Add Product")
-	@PostMapping(value = "/addProduct", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/addProduct", consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductResponseWrapper> addProduct(
 			@RequestBody @Valid AddProductRequestWrapper addProductRequestWrapper,
 			@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel) {
