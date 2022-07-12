@@ -1,6 +1,7 @@
 package com.manager.repo;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,6 @@ public interface ProductDetailsRepo extends CrudRepository<Product,Long> {
 
 	ArrayList<Product> findTop3ByOrderByIdDesc();
 
-	ArrayList<Product> findBySku(String sku);
+	Optional<Product> findBySku(String sku);
 }
  
