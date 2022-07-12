@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AddProductRequestWrapper {
 
-	@JsonProperty("productRequest")
+	@JsonProperty("addProductRequest")
 	private AddProductRequest addProductRequest;
 
 	public AddProductRequest getAddProductRequest() {
