@@ -25,6 +25,7 @@ import com.manager.model.AddProductRequest;
 import com.manager.model.ProductDetails;
 import com.manager.model.ProductRequest;
 import com.manager.model.ProductResponse;
+import com.manager.repo.ProductCategoryRepo;
 import com.manager.repo.ProductDetailsRepo;
 import com.manager.utils.GenericException;
 import com.manager.utils.NoRecordException;
@@ -41,6 +42,9 @@ public class ProductService implements IProductService {
 
 	@Autowired
 	private ProductDetailsRepo productDetails;
+	
+	@Autowired
+	private ProductCategoryRepo productCategoryRepo;
 
 	@Transactional
 	public ProductResponse fetchAllProducts(ProductRequest productRequest, String masterTxnRefNo, String channel) {
@@ -204,6 +208,7 @@ public class ProductService implements IProductService {
 		productCategory.setProducts(tempData);
 		
 
+		productCategoryRepo.save(productCategory);
 		return null;
 	}
 
