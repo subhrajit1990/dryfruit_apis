@@ -3,6 +3,7 @@ package com.manager.domain;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -46,7 +47,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory category;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = CascadeType.PERSIST)
 	@NotFound(action=NotFoundAction.IGNORE)
     @JoinColumn(name = "inventory_id", foreignKey=@ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private ProductInventory inventory;
