@@ -37,10 +37,10 @@ public class AddProductRequest {
 	private String category;
 	
 	
-	@ApiModelProperty(example = "Nuts", position = 5, required = true, value = "${ProductAdd.description.value}")
+	@ApiModelProperty(example = "Nuts", position = 5, required = true, value = "${ProductAdd.productDescription.value}")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonProperty("description")
-	private String description;
+	@JsonProperty("productDescription")
+	private String productDescription;
 
 	@ApiModelProperty(example = "10", position = 6, required = true, value = "${ProductDetails.quantity.value}")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -68,104 +68,97 @@ public class AddProductRequest {
 	@JsonProperty("discountId")
 	private int discountId;
 
+	@ApiModelProperty(example = "Nuts", position = 11, required = true, value = "${ProductAdd.categoryDescription.value}")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonProperty("categoryDescription")
+	private String categoryDescription;
 
 	public String getTitle() {
 		return title;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public String getImage() {
 		return image;
 	}
 
-
 	public void setImage(String image) {
 		this.image = image;
 	}
-
 
 	public double getPrice() {
 		return price;
 	}
 
-
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
 
 	public String getCategory() {
 		return category;
 	}
 
-
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
-
-	public String getDescription() {
-		return description;
+	public String getProductDescription() {
+		return productDescription;
 	}
 
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
 	}
-
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
 
 	public String getSku() {
 		return sku;
 	}
 
-
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
-
 
 	public int getCategoryId() {
 		return categoryId;
 	}
 
-
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-
 
 	public int getInventoryId() {
 		return inventoryId;
 	}
 
-
 	public void setInventoryId(int inventoryId) {
 		this.inventoryId = inventoryId;
 	}
-
 
 	public int getDiscountId() {
 		return discountId;
 	}
 
-
 	public void setDiscountId(int discountId) {
 		this.discountId = discountId;
+	}
+
+	public String getCategoryDescription() {
+		return categoryDescription;
+	}
+
+	public void setCategoryDescription(String categoryDescription) {
+		this.categoryDescription = categoryDescription;
 	}
 	
 	
