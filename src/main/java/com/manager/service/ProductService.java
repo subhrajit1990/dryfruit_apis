@@ -5,11 +5,14 @@ package com.manager.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.manager.domain.Product;
+import com.manager.domain.ProductCategory;
+import com.manager.model.AddProductRequest;
 import com.manager.model.ProductDetails;
 import com.manager.model.ProductRequest;
 import com.manager.model.ProductResponse;
@@ -169,29 +174,6 @@ public class ProductService implements IProductService {
 				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
 			}
 
-//			if (!prodDtls.isEmpty()) {
-//				List<ProductDetails> prdDtls = Collections.synchronizedList(new ArrayList<>());
-//
-//				Iterator<Product> itr = prodDtls.iterator();
-//				while (itr.hasNext()) {
-//					ProductDetails gp = new ProductDetails();
-//					Product ct = itr.next();
-//					gp.setCategory(ct.getCategory().getName());
-//					gp.setDescription(ct.getDesc());
-//					gp.setImage(ct.getImageUrl());
-//					gp.setPrice(ct.getPrice());
-//					gp.setTitle(ct.getName());
-//					if(ct.getInventory() != null)
-//					gp.setQuantity(ct.getInventory().getQuantity());
-//					prdDtls.add(gp);
-//
-//				}
-//				productResponse.setProductDetails(prdDtls);;
-//				
-//			} else {
-//				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
-//			}
-
 		} catch (Exception e) {
 			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
 			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR,
@@ -200,6 +182,29 @@ public class ProductService implements IProductService {
 		}
 		logger.info("Exiting the fetch products  :: " + productResponse.toString());
 		return productResponse;
+	}
+
+	public ProductResponse addProduct(@Valid AddProductRequest addProductRequest, String masterTxnRefNo,
+			String channel) {
+		// TODO Auto-generated method stub
+		Product product = new Product();
+		ProductCategory productCategory = new ProductCategory();
+		Set<Product> tempData = new HashSet<Product>();
+		
+		product.setDiscountId(addProductRequest.getDiscountId());
+		product.setImageUrl(addProductRequest.getImage());
+		//product.setInventory(addProductRequest.getInventoryId());
+		product.setPrice(addProductRequest.getPrice());
+		product.setSku(addProductRequest.getSku());
+		product.setDesc(addProductRequest.getProductDescription());
+		
+		tempData.add(product);
+		productCategory.setDesc(addProductRequest.getCategoryDescription());
+		productCategory.setName(addProductRequest.getCategory());
+		productCategory.setProducts(tempData);
+		
+
+		return null;
 	}
 
 }
