@@ -128,13 +128,14 @@ public class ProductController {
 		productResponse = productService.fetchProduct(productId,
 				masterTxnRefNo, channel);
 		CommonUtils.generateHeaderForSuccess(responseHeader);
+		productResponseWrapper.setProductReponse(productResponse);
 		} catch (Exception e) {
 			logger.error("Error occurred during fetch product in rest layer :: " + e.getStackTrace());
 			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
 		}
 		
 		productResponseWrapper.setResponseHeader(responseHeader);
-		productResponseWrapper.setProductReponse(productResponse);
+		
 		logger.info("Finished the execution for the fetch product request with masterTxnRefNo :: " + masterTxnRefNo);
 		return new ResponseEntity<>(productResponseWrapper, httpStatus);
 
