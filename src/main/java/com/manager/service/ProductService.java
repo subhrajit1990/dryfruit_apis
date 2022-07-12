@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.manager.domain.Product;
+import com.manager.domain.ProductCategory;
 import com.manager.model.AddProductRequest;
 import com.manager.model.ProductDetails;
 import com.manager.model.ProductRequest;
@@ -188,7 +189,7 @@ public class ProductService implements IProductService {
 			String channel) {
 		// TODO Auto-generated method stub
 		Product product = new Product();
-//		ProductCategory productCategory = new ProductCategory();
+		ProductCategory productCategory = new ProductCategory();
 //		Set<Product> tempData = new HashSet<Product>();
 		
 		product.setDiscountId(addProductRequest.getDiscountId());
@@ -197,6 +198,8 @@ public class ProductService implements IProductService {
 		product.setPrice(addProductRequest.getPrice());
 		product.setSku(addProductRequest.getSku());
 		product.setDesc(addProductRequest.getProductDescription());
+		productCategory.setId((long) addProductRequest.getCategoryId());
+		product.setCategory(productCategory);
 		
 //		tempData.add(product);
 //		productCategory.setDesc(addProductRequest.getCategoryDescription());
