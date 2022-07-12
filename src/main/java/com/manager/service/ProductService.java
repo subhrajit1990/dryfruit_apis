@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.manager.domain.Product;
 import com.manager.domain.ProductCategory;
+import com.manager.domain.ProductInventory;
 import com.manager.model.AddProductRequest;
 import com.manager.model.ProductDetails;
 import com.manager.model.ProductRequest;
@@ -190,6 +191,7 @@ public class ProductService implements IProductService {
 		// TODO Auto-generated method stub
 		Product product = new Product();
 		ProductCategory productCategory = new ProductCategory();
+		ProductInventory productInventory = new ProductInventory();
 //		Set<Product> tempData = new HashSet<Product>();
 		
 		product.setDiscountId(addProductRequest.getDiscountId());
@@ -200,6 +202,9 @@ public class ProductService implements IProductService {
 		product.setDesc(addProductRequest.getProductDescription());
 		productCategory.setId((long) addProductRequest.getCategoryId());
 		product.setCategory(productCategory);
+		//productInventory.setId(addProductRequest.getSku());
+		productInventory.setQuantity(addProductRequest.getQuantity());
+		product.setInventory(productInventory);
 		
 //		tempData.add(product);
 //		productCategory.setDesc(addProductRequest.getCategoryDescription());
