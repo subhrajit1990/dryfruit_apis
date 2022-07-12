@@ -3,6 +3,7 @@
  */
 package com.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -15,6 +16,7 @@ public class ProductResponseWrapper {
 	private ResponseHeader responseHeader;
 	
 	@JsonProperty("ProductResponse")
+	@JsonInclude(JsonInclude.Include.NON_NULL) 
 	private ProductResponse productReponse;
 
 	public ResponseHeader getResponseHeader() {
