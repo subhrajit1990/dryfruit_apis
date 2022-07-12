@@ -1,5 +1,7 @@
 package com.manager.controller;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import com.manager.model.AddProductRequestWrapper;
 import com.manager.model.ProductRequestWrapper;
 import com.manager.model.ProductResponse;
 import com.manager.model.ProductResponseWrapper;
@@ -48,7 +52,7 @@ public class ProductController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "All Product API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
-			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+			@ApiResponse(code = 404, message = "All Products API is not reachable") })
 	@ApiOperation(value = "All", notes = "All Products")
 	@PostMapping(value = "/all", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductResponseWrapper> fetchProducts(
@@ -80,7 +84,7 @@ public class ProductController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Recent Product API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
-			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+			@ApiResponse(code = 404, message = "Recent Products API is not reachable") })
 	@ApiOperation(value = "Recent Products", notes = "Recent Products")
 	@PostMapping(value = "/recentProducts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductResponseWrapper> recentProducts(
@@ -112,7 +116,7 @@ public class ProductController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Product API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
-			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+			@ApiResponse(code = 404, message = "View Product API is not reachable") })
 	@ApiOperation(value = "View Products", notes = "View Product")
 	@GetMapping(value = "/viewProduct/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductResponseWrapper> product(
@@ -141,5 +145,38 @@ public class ProductController {
 
 	}
 
+	
+	@PreAuthorize("hasRole('USER')")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Product API is reachable"),
+			@ApiResponse(code = 408, message = "Service Timed Out"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+	@ApiOperation(value = "Add Products", notes = "Add Product")
+	@PostMapping(value = "/addProduct", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductResponseWrapper> addProduct(
+			@RequestBody @Valid AddProductRequestWrapper addProductRequestWrapper,
+			@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel) {
+		logger.info("Started the execution for the add request with masterTxnRefNo :: " + masterTxnRefNo);
+		HttpStatus httpStatus = null;
+		httpStatus = HttpStatus.OK;
+		ResponseHeader responseHeader = new ResponseHeader();
+		ProductResponseWrapper productResponseWrapper = new ProductResponseWrapper();
+		ProductResponse productResponse = new ProductResponse();
+		try {
+		productResponse = productService.addProduct(addProductRequestWrapper.getAddProductRequest(),
+				masterTxnRefNo, channel);
+		CommonUtils.generateHeaderForSuccess(responseHeader);
+		productResponseWrapper.setProductReponse(productResponse);
+		} catch (Exception e) {
+			logger.error("Error occurred during add product in rest layer :: " + e.getStackTrace());
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
+		}
+		
+		productResponseWrapper.setResponseHeader(responseHeader);
+		
+		logger.info("Finished the execution for the add product request with masterTxnRefNo :: " + masterTxnRefNo);
+		return new ResponseEntity<>(productResponseWrapper, httpStatus);
+
+	}
 
 }
