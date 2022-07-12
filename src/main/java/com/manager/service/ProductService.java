@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -38,10 +39,10 @@ public class ProductService implements IProductService {
 
 	@Transactional
 	public ProductResponse fetchAllProducts(ProductRequest productRequest, String masterTxnRefNo, String channel) {
-		
+
 		/**
-		 * Data manipulation is not required, only to fetch and store hence
-		 * using Array List
+		 * Data manipulation is not required, only to fetch and store hence using Array
+		 * List
 		 **/
 		ArrayList<Product> prodDtls = null;
 		ProductResponse productResponse = new ProductResponse();
@@ -62,13 +63,14 @@ public class ProductService implements IProductService {
 					gp.setImage(ct.getImageUrl());
 					gp.setPrice(ct.getPrice());
 					gp.setTitle(ct.getName());
-					if(ct.getInventory() != null)
-					gp.setQuantity(ct.getInventory().getQuantity());
+					if (ct.getInventory() != null)
+						gp.setQuantity(ct.getInventory().getQuantity());
 					prdDtls.add(gp);
 
 				}
-				productResponse.setProductDetails(prdDtls);;
-				
+				productResponse.setProductDetails(prdDtls);
+				;
+
 			} else {
 				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
 			}
@@ -76,8 +78,9 @@ public class ProductService implements IProductService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
-			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
-			
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR,
+					"Unable to process the request at this moment, please try after some time.");
+
 		}
 		logger.info("Exiting the fetch products  :: " + productResponse.toString());
 		return productResponse;
@@ -85,8 +88,8 @@ public class ProductService implements IProductService {
 
 	public ProductResponse fetchRecentProducts(ProductRequest productRequest, String masterTxnRefNo, String channel) {
 		/**
-		 * Data manipulation is not required, only to fetch and store hence
-		 * using Array List
+		 * Data manipulation is not required, only to fetch and store hence using Array
+		 * List
 		 **/
 		ArrayList<Product> prodDtls = null;
 		ProductResponse productResponse = new ProductResponse();
@@ -107,44 +110,47 @@ public class ProductService implements IProductService {
 					gp.setImage(ct.getImageUrl());
 					gp.setPrice(ct.getPrice());
 					gp.setTitle(ct.getName());
-					if(ct.getInventory() != null)
-					gp.setQuantity(ct.getInventory().getQuantity());
+					if (ct.getInventory() != null)
+						gp.setQuantity(ct.getInventory().getQuantity());
 					prdDtls.add(gp);
 
 				}
-				productResponse.setProductDetails(prdDtls);;
-				
+				productResponse.setProductDetails(prdDtls);
+				;
+
 			} else {
 				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
 			}
 
 		} catch (Exception e) {
 			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
-			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
-			
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR,
+					"Unable to process the request at this moment, please try after some time.");
+
 		}
 		logger.info("Exiting the fetch products  :: " + productResponse.toString());
 		return productResponse;
 	}
-	
+
 	@Transactional
 	public ProductResponse fetchProduct(String productId, String masterTxnRefNo, String channel) {
-		
+
 		/**
-		 * Data manipulation is not required, only to fetch and store hence
-		 * using Array List
+		 * Data manipulation is not required, only to fetch and store hence using Array
+		 * List
 		 **/
-		ArrayList<Product> prodDtls = null;
+		Optional<Product> prodDtls = null;
 		ProductResponse productResponse = new ProductResponse();
 
 		try {
-			prodDtls = (ArrayList<Product>) productDetails.findBySku(productId);
+			prodDtls = productDetails.findBySku(productId);
 			logger.info("Products :: " + prodDtls);
-
-			if (!prodDtls.isEmpty()) {
+			ArrayList<Product> tempProduct = new ArrayList<>();
+			if (prodDtls.isPresent()) {
+				tempProduct.add(prodDtls.get());
 				List<ProductDetails> prdDtls = Collections.synchronizedList(new ArrayList<>());
 
-				Iterator<Product> itr = prodDtls.iterator();
+				Iterator<Product> itr = tempProduct.iterator();
 				while (itr.hasNext()) {
 					ProductDetails gp = new ProductDetails();
 					Product ct = itr.next();
@@ -153,21 +159,44 @@ public class ProductService implements IProductService {
 					gp.setImage(ct.getImageUrl());
 					gp.setPrice(ct.getPrice());
 					gp.setTitle(ct.getName());
-					if(ct.getInventory() != null)
-					gp.setQuantity(ct.getInventory().getQuantity());
+					if (ct.getInventory() != null)
+						gp.setQuantity(ct.getInventory().getQuantity());
 					prdDtls.add(gp);
 
 				}
-				productResponse.setProductDetails(prdDtls);;
-				
+				productResponse.setProductDetails(prdDtls);
 			} else {
 				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
 			}
 
+//			if (!prodDtls.isEmpty()) {
+//				List<ProductDetails> prdDtls = Collections.synchronizedList(new ArrayList<>());
+//
+//				Iterator<Product> itr = prodDtls.iterator();
+//				while (itr.hasNext()) {
+//					ProductDetails gp = new ProductDetails();
+//					Product ct = itr.next();
+//					gp.setCategory(ct.getCategory().getName());
+//					gp.setDescription(ct.getDesc());
+//					gp.setImage(ct.getImageUrl());
+//					gp.setPrice(ct.getPrice());
+//					gp.setTitle(ct.getName());
+//					if(ct.getInventory() != null)
+//					gp.setQuantity(ct.getInventory().getQuantity());
+//					prdDtls.add(gp);
+//
+//				}
+//				productResponse.setProductDetails(prdDtls);;
+//				
+//			} else {
+//				throw new NoRecordException(commonConstants.NORECORD, "No Record Found");
+//			}
+
 		} catch (Exception e) {
 			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
-			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR, "Unable to process the request at this moment, please try after some time.");
-			
+			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR,
+					"Unable to process the request at this moment, please try after some time.");
+
 		}
 		logger.info("Exiting the fetch products  :: " + productResponse.toString());
 		return productResponse;
