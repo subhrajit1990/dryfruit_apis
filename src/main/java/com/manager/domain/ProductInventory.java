@@ -42,7 +42,7 @@ public class ProductInventory implements Serializable {
 	@Column(name = "created_by")
 	private String createdBy;
 
-	@Column(name = "isActive")
+	@Column(name = "is_active")
 	private String isActive;
 
 	@Column(name = "variant_name")
