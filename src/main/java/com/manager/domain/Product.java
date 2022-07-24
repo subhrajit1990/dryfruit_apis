@@ -22,12 +22,7 @@ public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-//	@Id
-//	private Long id;
-//	@EmbeddedId
-//	private ProductsId productsId;
-
-	@Column(name = "prod_id", updatable = false)
+	@Column(name = "id", updatable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long prodId;
 
@@ -40,7 +35,6 @@ public class Product implements Serializable {
 
 	@Column(name = "description")
 	private String desc;
-
 
 	@Column(name = "discount_id")
 	private int discountId;
@@ -57,13 +51,11 @@ public class Product implements Serializable {
 
 	@Column(name = "is_active")
 	private String isActive;
- 
-	@OneToOne(mappedBy = "product",fetch = FetchType.LAZY,
-			 cascade = CascadeType.ALL)
+
+	@OneToOne(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private ProductImage productImage;
 
-	@OneToMany(mappedBy = "products",fetch = FetchType.LAZY,
-			 cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ProductInventory> inventory;
 
 	public String getName() {
