@@ -22,11 +22,11 @@ public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	//@Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
-	@Id
+	//@Id
 	@Column(name = "sku", updatable = false)
 	private String sku;
 
