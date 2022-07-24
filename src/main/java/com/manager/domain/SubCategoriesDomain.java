@@ -38,7 +38,7 @@ public class SubCategoriesDomain implements Serializable {
 	@Column(name = "created_by")
 	private String createdBy;
 
-	@Column(name = "isActive")
+	@Column(name = "is_active")
 	private String isActive;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
