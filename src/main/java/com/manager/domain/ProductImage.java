@@ -47,7 +47,7 @@ public class ProductImage implements Serializable {
 	@Column(name = "created_by")
 	private String createdBy;
 
-	@Column(name = "isActive")
+	@Column(name = "is_active")
 	private String isActive;
 
 	public Long getId() {
