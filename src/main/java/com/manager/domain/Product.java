@@ -55,7 +55,7 @@ public class Product implements Serializable {
 	@Column(name = "created_by")
 	private String createdBy;
 
-	@Column(name = "isActive")
+	@Column(name = "is_active")
 	private String isActive;
  
 	@OneToOne(mappedBy = "product",fetch = FetchType.LAZY,
