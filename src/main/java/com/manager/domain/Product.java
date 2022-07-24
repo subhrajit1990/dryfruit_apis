@@ -22,9 +22,9 @@ public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "id", updatable = false)
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long prodId;
+	private Long id;
 
 	@Id
 	@Column(name = "sku", updatable = false)
@@ -78,12 +78,12 @@ public class Product implements Serializable {
 		return discountId;
 	}
 
-	public Long getProdId() {
-		return prodId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setProdId(Long prodId) {
-		this.prodId = prodId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getSku() {
