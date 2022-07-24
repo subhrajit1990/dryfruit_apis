@@ -149,7 +149,7 @@ PRIMARY KEY (`id`)
  ); commit;
 
 
-
+drop table PRODUCT_INVENTORY; commit;
  CREATE TABLE `PRODUCT_INVENTORY` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT,
 `quantity` int(11) DEFAULT NULL,
@@ -165,3 +165,229 @@ INSERT INTO `PRODUCT_CATEGORY` VALUES(1,'Badam','Different Badam',1,null); commi
 INSERT INTO `PRODUCT_CATEGORY` VALUES (2,'Kaju Nuts','Different Nuts',null); commit;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=========================
+
+drop table  PRODUCT_CATEGORY; commit;
+
+CREATE TABLE `PRODUCT_CATEGORY` (
+`id` int(20) NOT NULL AUTO_INCREMENT,
+`product_type` varchar(255) NOT NULL,
+`description` varchar(255) NOT NULL,
+`isActive` varchar(2) DEFAULT 'Y',
+`created_by` varchar(255) DEFAULT NULL,
+`modified_by` varchar(255) DEFAULT NULL,
+`modified_dt` timestamp NULL,
+`created_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`)
+ ); commit;
+
+
+
+drop table  PRODUCT_SUBCATEGORY; commit;
+
+
+ CREATE TABLE `PRODUCT_SUBCATEGORY` (
+`id` int(20) NOT NULL AUTO_INCREMENT,
+`product_id` int(20) NULL,
+`product_sub_category` varchar(255) NOT NULL,
+`description` varchar(255) NOT NULL,
+`isActive` varchar(2) DEFAULT 'Y',
+`created_by` varchar(255) DEFAULT NULL,
+`modified_by` varchar(255) DEFAULT NULL,
+`modified_dt` timestamp,
+`created_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+FOREIGN KEY (product_id) REFERENCES PRODUCT_CATEGORY(id)
+ ); commit;
+ 
+ 
+ Drop table PRODUCTS;commit;
+ CREATE TABLE `PRODUCTS` (
+`prod_id` int(20) NOT NULL AUTO_INCREMENT,
+`sku` varchar(255)  NOT NULL,
+`product_name` varchar(255) DEFAULT NULL,
+`description` varchar(255) DEFAULT NULL,
+`product_id` int(20) DEFAULT NULL,
+`discount_id` bigint(20) NOT NULL,
+`modified_dt` timestamp NULL DEFAULT NULL,
+`created_by` varchar(255) DEFAULT NULL,
+`modified_by` varchar(255) DEFAULT NULL,
+`created_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`isActive` varchar(2) DEFAULT 'Y',
+PRIMARY KEY (`prod_id`,`sku`)
+ );commit;
+ 
+ alter table PRODUCTS add key (sku); commit;
+ 
+ drop table PRODUCT_INVENTORY; commit;
+ CREATE TABLE `PRODUCT_INVENTORY` (
+`id` int(20) NOT NULL AUTO_INCREMENT,
+`product_inv_id` varchar(255)  NOT NULL,
+`variant_name` varchar(255)  NOT NULL,
+`variant_desc` varchar(255)  NOT NULL,
+`price` double NOT NULL,
+`quantity` int(11) DEFAULT NULL,
+`modified_dt` timestamp NULL DEFAULT NULL,
+`created_by` varchar(255) DEFAULT NULL,
+`modified_by` varchar(255) DEFAULT NULL,
+`created_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`isActive` varchar(2) DEFAULT 'Y',
+PRIMARY KEY (`id`),
+FOREIGN KEY (product_inv_id) REFERENCES PRODUCTS(sku)
+ ); commit;
+ 
+ 
+  drop table PRODUCT_IMAGE; commit;
+ CREATE TABLE `PRODUCT_IMAGE` (
+`id` int(20) NOT NULL AUTO_INCREMENT,
+`product_img_id` varchar(255) NOT NULL,
+`product_img1` varchar(255) DEFAULT NULL,
+`product_img2` varchar(255) DEFAULT NULL,
+`product_img3` varchar(255) DEFAULT NULL,
+`modified_dt` timestamp NULL DEFAULT NULL,
+`created_by` varchar(255) DEFAULT NULL,
+`modified_by` varchar(255) DEFAULT NULL,
+`created_dt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`isActive` varchar(2) DEFAULT 'Y',
+PRIMARY KEY (`id`),
+FOREIGN KEY (product_img_id) REFERENCES PRODUCTS(sku)
+); commit;
+
+
+====
+
+begin;
+set transaction read write;
+
+drop table  PRODUCT_CATEGORY; commit;
+
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE SEQUENCE PRODUCT_CATEGORY_seq;
+
+CREATE TABLE PRODUCT_CATEGORY (
+id int NOT NULL DEFAULT NEXTVAL ('PRODUCT_CATEGORY_seq'),
+product_type varchar(255) NOT NULL,
+description varchar(255) NOT NULL,
+isActive varchar(2) DEFAULT 'Y',
+created_by varchar(255) DEFAULT NULL,
+modified_by varchar(255) DEFAULT NULL,
+modified_dt timestamp(0) NULL,
+created_dt timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (id)
+ ); commit;
+
+
+
+drop table  PRODUCT_SUBCATEGORY; commit;
+
+
+ -- SQLINES LICENSE FOR EVALUATION USE ONLY
+ CREATE SEQUENCE PRODUCT_SUBCATEGORY_seq;
+
+ CREATE TABLE PRODUCT_SUBCATEGORY (
+id int NOT NULL DEFAULT NEXTVAL ('PRODUCT_SUBCATEGORY_seq'),
+product_id int NULL,
+product_sub_category varchar(255) NOT NULL,
+description varchar(255) NOT NULL,
+isActive varchar(2) DEFAULT 'Y',
+created_by varchar(255) DEFAULT NULL,
+modified_by varchar(255) DEFAULT NULL,
+modified_dt timestamp(0),
+created_dt timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (id),
+FOREIGN KEY (product_id) REFERENCES PRODUCT_CATEGORY(id)
+ ); commit;
+ 
+ 
+ Drop table PRODUCTS;commit;
+ -- SQLINES LICENSE FOR EVALUATION USE ONLY
+ CREATE SEQUENCE PRODUCTS_seq;
+
+ CREATE TABLE PRODUCTS (
+prod_id int NOT NULL DEFAULT NEXTVAL ('PRODUCTS_seq'),
+sku varchar(255)  UNIQUE,
+product_name varchar(255) DEFAULT NULL,
+description varchar(255) DEFAULT NULL,
+product_id int DEFAULT NULL,
+discount_id bigint NOT NULL,
+modified_dt timestamp(0) NULL DEFAULT NULL,
+created_by varchar(255) DEFAULT NULL,
+modified_by varchar(255) DEFAULT NULL,
+created_dt timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+isActive varchar(2) DEFAULT 'Y',
+PRIMARY KEY (prod_id,sku)
+ );commit;
+ 
+ //alter table PRODUCTS add create index (sku); commit;
+ 
+ 
+ //CREATE INDEX sku 
+ON PRODUCTS(sku);commit
+ 
+ drop table PRODUCT_INVENTORY; commit;
+ -- SQLINES LICENSE FOR EVALUATION USE ONLY
+ CREATE SEQUENCE PRODUCT_INVENTORY_seq;
+
+ CREATE TABLE PRODUCT_INVENTORY (
+id int NOT NULL DEFAULT NEXTVAL ('PRODUCT_INVENTORY_seq'),
+product_inv_id varchar(255)  NOT NULL,
+variant_name varchar(255)  NOT NULL,
+variant_desc varchar(255)  NOT NULL,
+price double precision NOT NULL,
+quantity int DEFAULT NULL,
+modified_dt timestamp(0) NULL DEFAULT NULL,
+created_by varchar(255) DEFAULT NULL,
+modified_by varchar(255) DEFAULT NULL,
+created_dt timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+isActive varchar(2) DEFAULT 'Y',
+PRIMARY KEY (id),
+FOREIGN KEY (product_inv_id) REFERENCES PRODUCTS(sku)
+ ); commit;
+ 
+ 
+  drop table PRODUCT_IMAGE; commit;
+ -- SQLINES LICENSE FOR EVALUATION USE ONLY
+ CREATE SEQUENCE PRODUCT_IMAGE_seq;
+
+ CREATE TABLE PRODUCT_IMAGE (
+id int NOT NULL DEFAULT NEXTVAL ('PRODUCT_IMAGE_seq'),
+product_img_id varchar(255) NOT NULL,
+product_img1 varchar(255) DEFAULT NULL,
+product_img2 varchar(255) DEFAULT NULL,
+product_img3 varchar(255) DEFAULT NULL,
+modified_dt timestamp(0) NULL DEFAULT NULL,
+created_by varchar(255) DEFAULT NULL,
+modified_by varchar(255) DEFAULT NULL,
+created_dt timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+isActive varchar(2) DEFAULT 'Y',
+PRIMARY KEY (id),
+FOREIGN KEY (product_img_id) REFERENCES PRODUCTS(sku)
+); commit;
