@@ -197,9 +197,9 @@ public class ProductService implements IProductService {
 				productDetails.setTitle(prodDtls.get().getName());
 				productDetails.setSku(prodDtls.get().getSku());
 
-				if (productDetails.getProductInv().size() > 0) {
+				if (prodDtls.get().getInventory().size() > 0) {
 					List<ProductInv> prdinvs = Collections.synchronizedList(new ArrayList<>());
-					(productDetails.getProductInv()).stream().forEach(prdInvs -> {
+					(prodDtls.get().getInventory()).stream().forEach(prdInvs -> {
 						ProductInv productInv = new ProductInv();
 						productInv.setPrice(prdInvs.getPrice());
 						productInv.setQuantity(prdInvs.getQuantity());
