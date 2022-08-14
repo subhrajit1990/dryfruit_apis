@@ -218,7 +218,6 @@ public class ProductService implements IProductService {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error occurred during fetch products :: " + e.getStackTrace());
 			throw new GenericException(commonConstants.PROCESSINGREQUESTERROR,
 					"Unable to process the request at this moment, please try after some time.");
